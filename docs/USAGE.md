@@ -28,7 +28,20 @@ export CXR_REPAIR_CHECKPOINT=/path/to/clip-imp-pretrained_128_6_after_4.pt
 export CXR_BERT_PATH=/path/to/BiomedVLP-CXR-BERT-specialized
 ```
 
-The default filenames are `train2_p1_boundary_masked_v5_v3_3_final.parquet`, `val2_p1_boundary_masked_v5_v3_3_final.parquet`, and `test2_p1_boundary_masked_v5_v3_3_final.parquet`. Edit the YAML if your authorized copies use different filenames. With `image_path_layout: split_flat`, images are resolved under `CXR_IMAGE_ROOT/{train,val,test}/` using the filename stored in `image_path`.
+Place the prepared benchmark files under `CXR_OMIT_ROOT` using these names:
+
+```text
+benchmark/
+  train.parquet
+  val.parquet
+  test.parquet
+```
+
+If your authorized copies use different filenames, rename the files or edit the three Parquet paths in both `configs/train.yaml` and `configs/eval.yaml`. Renaming a file does not change its rows, labels, or patient-disjoint split assignment.
+
+With the default `image_path_layout: split_flat`, images are resolved under `CXR_IMAGE_ROOT/{train,val,test}/` using the filename stored in `image_path`. For an existing image directory tree, set `image_path_layout: auto` in both configurations and store image paths relative to `CXR_IMAGE_ROOT` in the Parquets.
+
+All data and pretrained-model locations are configurable through the environment variables above or the YAML files. Training and evaluation outputs are written to relative paths under `outputs/`.
 
 Each row contains `sample_id`, `study_id`, `image_path`, `split`, `perturbed_report_text`, and `is_clean`. Supervision uses the following category-specific columns:
 

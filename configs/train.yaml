@@ -99,9 +99,9 @@ loss:
   - 1.0
   - 3.0
 data:
-  train_parquet: ${CXR_OMIT_ROOT}/train2_p1_boundary_masked_v5_v3_3_final.parquet
-  val_parquet: ${CXR_OMIT_ROOT}/val2_p1_boundary_masked_v5_v3_3_final.parquet
-  test_parquet: ${CXR_OMIT_ROOT}/test2_p1_boundary_masked_v5_v3_3_final.parquet
+  train_parquet: ${CXR_OMIT_ROOT}/train.parquet
+  val_parquet: ${CXR_OMIT_ROOT}/val.parquet
+  test_parquet: ${CXR_OMIT_ROOT}/test.parquet
   image_root: ${CXR_IMAGE_ROOT}
   image_format: jpg
   image_path_layout: split_flat
