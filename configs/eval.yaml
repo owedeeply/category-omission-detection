@@ -1,0 +1,219 @@
+experiment:
+  name: cgq_net_seed42
+  type: single_query_per_class
+model:
+  image_encoder:
+    name: cxr_repair_clip_vit_b32
+    checkpoint_path: ${CXR_REPAIR_CHECKPOINT}
+    official_source: https://github.com/rajpurkarlab/CXR-RePaiR
+    image_size: 512
+    pretrained_image_size: 224
+    freeze: true
+    return_patch_tokens: true
+    interpolate_pos_embed: true
+    train_pos_embed_when_frozen: true
+    strict_load: false
+  text_encoder:
+    name: ${CXR_BERT_PATH:-microsoft/BiomedVLP-CXR-BERT-specialized}
+    trust_remote_code: true
+    max_length: 256
+    freeze: true
+    use_last_hidden_state: true
+    prompt_pooling: cls
+  num_classes: 9
+  hidden_dim: 768
+  queries_per_class: 1
+  queries_per_class_by_class:
+    fracture: 1
+    pulmonary_nodule_mass: 1
+    emphysema: 1
+  query_init:
+    path: ''
+    trainable: true
+    use_projection: true
+    required: false
+    random_reference_max_queries: 10
+  query:
+    use_modality_adaptive: true
+  omission_head_type: prototype_coverage_gated
+  prototype_pooling: attention
+  cross_attention:
+    num_layers: 3
+    num_heads: 12
+    ffn_dim: 3072
+    dropout: 0.15
+    share_visual_text_params: false
+  type: full
+loss:
+  lambda_weak: 0.3
+  lambda_text_coverage: 0.1
+  omit_loss: masked_asymmetric
+  omit_asl_gamma_pos: 0.0
+  omit_asl_gamma_neg: 3.0
+  omit_asl_gamma_pos_by_class:
+    atelectasis: 0.0
+    cardiomegaly: 0.0
+    consolidation: 0.0
+    fracture: 0.0
+    pulmonary_nodule_mass: 0.0
+    pleural_effusion: 0.0
+    pneumothorax: 0.0
+    emphysema: 0.0
+    edema: 0.0
+  omit_asl_gamma_neg_by_class:
+    atelectasis: 3.0
+    cardiomegaly: 3.0
+    consolidation: 3.0
+    fracture: 2.0
+    pulmonary_nodule_mass: 2.0
+    pleural_effusion: 3.0
+    pneumothorax: 3.0
+    emphysema: 2.0
+    edema: 3.0
+  omit_pos_weight_mode: sqrt_clipped
+  omit_pos_weight_clip:
+  - 1.0
+  - 3.0
+  omit_weight_count_with_mask_only: true
+  use_omit_pair_weight: true
+  use_tail_class_weight: true
+  pair_weight_override:
+    enable: false
+    tail_classes:
+    - fracture
+    - pulmonary_nodule_mass
+    - emphysema
+    non_tail:
+      omit_positive: 3.0
+      hard_negative: 2.0
+      weak_negative: 0.8
+    tail:
+      omit_positive: 4.0
+      hard_negative: 4.0
+      weak_negative: 1.0
+    clean_negative_multiplier: 1.2
+  weak_loss: weighted_bce
+  weak_mask_source: valid
+  weak_pos_weight_mode: sqrt_clipped
+  weak_pos_weight_clip:
+  - 1.0
+  - 3.0
+data:
+  train_parquet: ${CXR_OMIT_ROOT}/train2_p1_boundary_masked_v5_v3_3_final.parquet
+  val_parquet: ${CXR_OMIT_ROOT}/val2_p1_boundary_masked_v5_v3_3_final.parquet
+  test_parquet: ${CXR_OMIT_ROOT}/test2_p1_boundary_masked_v5_v3_3_final.parquet
+  image_root: ${CXR_IMAGE_ROOT}
+  image_format: jpg
+  image_path_layout: split_flat
+  do_not_modify_dataset: true
+  do_not_filter_samples: true
+  do_not_resample: true
+  use_is_clean_only_for_metrics: true
+  num_workers: 8
+  pin_memory: true
+  persistent_workers: true
+  prefetch_factor: 2
+train:
+  output_dir: outputs/cgq_net_evaluation
+  seed: 42
+  batch_size: 128
+  accumulate_grad_batches: 1
+  effective_batch_size: 128
+  max_epochs: 6
+  precision: bf16-mixed
+  gradient_clip_val: 1.0
+  optimizer: adamw
+  lr_new_modules: 2.8e-05
+  lr_image_encoder: 5.0e-06
+  lr_text_encoder: 5.0e-06
+  weight_decay: 0.001
+  scheduler: cosine
+  warmup_ratio: 0.05
+  query_warmup:
+    freeze_class_queries_epochs: 1
+  early_stopping:
+    monitor: val/omit_macro_auprc
+    mode: max
+    patience: 2
+    min_delta: 0.0005
+train_sampler:
+  enable: false
+  type: tail_positive_hard_negative
+  tail_classes:
+  - fracture
+  - pulmonary_nodule_mass
+  - emphysema
+  positive_boost: 0.65
+  hard_negative_boost: 0.35
+  max_weight: 2.2
+  rare_power: 0.5
+  rare_multiplier_max: 1.4
+threshold:
+  fixed_value: 0.6
+  save_val_best_f1_threshold: true
+  save_val_precision80_threshold: true
+  save_val_precision90_threshold: true
+finetune:
+  enable: true
+  unfreeze_image_last_blocks: 1
+  unfreeze_text_last_layers: 0
+image_preprocess:
+  image_size: 512
+  force_gray: true
+  to_3ch: true
+  basic_range_norm: true
+  interpolation: bicubic
+  normalize: clip_mean_std
+train_augmentation:
+  enable: true
+  random_resized_crop:
+    enable: false
+    scale:
+    - 0.9
+    - 1.0
+    ratio:
+    - 0.95
+    - 1.05
+  random_rotate:
+    enable: true
+    prob: 0.15
+    degrees: 3
+  clahe:
+    enable: false
+    prob: 0.3
+    clip_limit: 1.5
+  horizontal_flip:
+    enable: false
+    prob: 0.0
+  color_jitter:
+    enable: false
+    brightness: 0.1
+    contrast: 0.1
+  gaussian_noise:
+    enable: true
+    std: 0.005
+  random_affine:
+    enable: false
+    translate: 0.02
+    scale:
+    - 0.95
+    - 1.05
+  blur:
+    enable: false
+  cutmix:
+    enable: false
+  mixup:
+    enable: false
+  randaugment:
+    enable: false
+  autoaugment:
+    enable: false
+val_test_preprocess:
+  resize_mode: direct_resize
+  image_size: 512
+  force_gray: true
+  to_3ch: true
+  basic_range_norm: true
+  interpolation: bicubic
+  normalize: clip_mean_std
+  apply_clahe: false

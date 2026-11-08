@@ -1,0 +1,53 @@
+{
+  "fit_split": "val",
+  "class_order": [
+    "atelectasis",
+    "cardiomegaly",
+    "consolidation",
+    "fracture",
+    "pulmonary_nodule_mass",
+    "pleural_effusion",
+    "pneumothorax",
+    "emphysema",
+    "edema"
+  ],
+  "thresholds": {
+    "fixed": 0.6,
+    "per_class_best_f1": {
+      "atelectasis": 0.727,
+      "cardiomegaly": 0.872,
+      "consolidation": 0.89,
+      "edema": 0.805,
+      "emphysema": 0.891,
+      "fracture": 0.8220000000000001,
+      "pleural_effusion": 0.884,
+      "pneumothorax": 0.936,
+      "pulmonary_nodule_mass": 0.853
+    },
+    "per_class_precision80": {
+      "atelectasis": 0.8375445008277893,
+      "cardiomegaly": 0.9468152523040771,
+      "consolidation": 0.9656229615211487,
+      "edema": 0.7921034097671509,
+      "emphysema": 0.9981675148010254,
+      "fracture": 0.9930487871170044,
+      "pleural_effusion": 0.8640598058700562,
+      "pneumothorax": 0.9623591899871826,
+      "pulmonary_nodule_mass": 0.9929393529891968
+    },
+    "per_class_precision90": {
+      "atelectasis": 0.9467272162437439,
+      "cardiomegaly": 0.986296534538269,
+      "consolidation": 0.9848626255989075,
+      "edema": 0.9392768144607544,
+      "emphysema": 0.9993896484375,
+      "fracture": 0.9957600235939026,
+      "pleural_effusion": 0.9665908217430115,
+      "pneumothorax": 0.9882392883300781,
+      "pulmonary_nodule_mass": 0.9983188509941101
+    },
+    "report_best_f1": 0.8300000000000001,
+    "report_precision80": 0.6631728410720825,
+    "report_precision90": 0.8542537093162537
+  }
+}

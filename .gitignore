@@ -216,3 +216,28 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# CGQ-Net local data and model artifacts
+/data/
+/datasets/
+/pretrained/
+/checkpoints/
+/weights/
+/outputs/
+/runs/
+*.parquet
+*.csv
+*.tsv
+*.npz
+*.npy
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.tar.gz
+*.zip
+*.jpg
+*.jpeg
+*.png
+*.dcm
+.env.*
