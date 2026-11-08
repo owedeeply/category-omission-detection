@@ -1,10 +1,10 @@
 # CGQ-Net: Chest X-ray Report Omission Detection
 
-Official implementation of **CGQ-Net (Coverage-Gated Query Network)** for category-level omission detection in chest X-ray reports. CGQ-Net performs category-specific visual and textual evidence retrieval and coverage-gated support–coverage reasoning, trained with controlled counterfactual supervision.
+Official implementation of **CGQ-Net (Category-Guided Query Network)** for category-level omission detection in chest X-ray reports. CGQ-Net performs category-specific visual and textual evidence retrieval and coverage-gated support–coverage reasoning, trained with controlled counterfactual supervision.
 
 ## Overview
 
-This repository provides the implementation of **CGQ-Net (Coverage-Gated Query Network)**, a multimodal framework for detecting omitted findings in chest X-ray radiology reports.
+This repository provides the implementation of **CGQ-Net (Category-Guided Query Network)**, a multimodal framework for detecting omitted findings in chest X-ray radiology reports.
 
 Unlike conventional report evaluation methods that primarily assess factual correctness, our approach focuses on identifying clinically relevant findings supported by chest X-ray images but not adequately documented in their accompanying reports.
 
