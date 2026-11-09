@@ -180,6 +180,7 @@ def collect_predictions(
         "omit_labels": [],
         "omit_masks": [],
         "weak_labels": [],
+        "weak_masks": [],
         "is_clean": [],
     }
     for batch in tqdm(loader, desc="collect_predictions"):
@@ -191,6 +192,10 @@ def collect_predictions(
         outputs["omit_labels"].append(batch["omit_labels"].detach().cpu())
         outputs["omit_masks"].append(batch["omit_masks"].detach().cpu())
         outputs["weak_labels"].append(batch["weak_labels"].detach().cpu())
+        weak_masks = lit_module._weak_loss_mask(batch)
+        if weak_masks is None:
+            weak_masks = torch.ones_like(batch["weak_labels"])
+        outputs["weak_masks"].append(weak_masks.detach().cpu())
         outputs["is_clean"].append(batch["is_clean"].detach().cpu())
         del out, batch
     print("Concatenating prediction tensors...")
@@ -280,7 +285,12 @@ def evaluate_threshold_scheme(
         prefix=prefix,
     )
     metrics.update(
-        compute_weak_metrics(preds["weak_prob"], preds["weak_labels"], prefix=prefix)
+        compute_weak_metrics(
+            preds["weak_prob"],
+            preds["weak_labels"],
+            weak_masks=preds.get("weak_masks"),
+            prefix=prefix,
+        )
     )
 
     per_class_f1 = []
