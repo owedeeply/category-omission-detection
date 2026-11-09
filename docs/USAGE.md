@@ -18,8 +18,6 @@ The pretrained encoders are [CXR-RePaiR ViT-B/32](https://github.com/rajpurkarla
 
 CXR-OMIT is derived from credentialed PhysioNet resources. Images, report text, derived evidence tables, and patient-level predictions are not distributed in this repository. Obtain source data through the corresponding [MIMIC-CXR](https://physionet.org/content/mimic-cxr/2.1.0/), [MIMIC-CXR-JPG](https://physionet.org/content/mimic-cxr-jpg/2.1.0/), and [CXR-LT](https://physionet.org/content/cxr-lt-iccv-workshop-cvamd/2.0.0/) access processes. CXR-OMIT data and CGQ-Net weights are distributed separately from the code. A separate PhysioNet benchmark release is planned; its project-specific access link and the checkpoint download link will be listed in the [resource table](../README.md#resources) when available. This code release consumes prepared benchmark Parquets and does not include the benchmark construction pipeline.
 
-**The default workflow uses CXR-OMIT v1, the version used in the paper.** The paper checkpoint, bundled thresholds, and reported metrics correspond to v1. The corrected v2 data are a separate version; the current loader does not apply its additional `coverage_valid_mask_*` fields. Keep versions in separate directories and point `CXR_OMIT_ROOT` to v1 for paper reproduction. See [data versions](../README.md#data-versions).
-
 Set these paths in your shell, or replace the corresponding entries in the YAML files:
 
 ```bash
