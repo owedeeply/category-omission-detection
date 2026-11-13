@@ -202,7 +202,7 @@ Code, benchmark data, and model weights are distributed separately. The reposito
 |---|---|
 | Main-model code | Available in this repository; see [full usage instructions](docs/USAGE.md). |
 | CXR-OMIT benchmark | Distributed separately from this code repository. A separate PhysioNet release is planned; the project-specific access link will be added here. |
-| CGQ-Net paper checkpoint | Distributed separately from the code; the download link will be added here. [Checkpoint identity, SHA-256, and expected metrics](configs/paper_checkpoint.json) are available. |
+| CGQ-Net paper checkpoint | Download [cgqnet_best.ckpt](https://github.com/owedeeply/category-omission-detection/releases/download/v0.1.0/cgqnet_best.ckpt) from Release v0.1.0. [Checkpoint identity, SHA-256, and expected metrics](configs/paper_checkpoint.json) are available. |
 | Paper thresholds | Available in [configs/thresholds_paper.json](configs/thresholds_paper.json); use with the corresponding paper checkpoint. |
 | Visual encoder initialization | [CXR-RePaiR ViT-B/32](https://github.com/rajpurkarlab/CXR-RePaiR); obtain `clip-imp-pretrained_128_6_after_4.pt` from the upstream project for training. |
 | Text encoder and tokenizer | [BiomedVLP-CXR-BERT-specialized](https://huggingface.co/microsoft/BiomedVLP-CXR-BERT-specialized); use the model ID or a local copy. |
@@ -212,7 +212,7 @@ Source images, report text, and benchmark Parquets are not hosted on GitHub. Acc
 
 ## Quick start
 
-The evaluation example below requires an authorized copy of **CXR-OMIT** and the matching CGQ-Net paper checkpoint. Their project-specific download links are not yet listed above. The repository consumes prepared benchmark files; it does not contain the benchmark construction pipeline.
+The evaluation example below requires an authorized copy of **CXR-OMIT** and the matching CGQ-Net paper checkpoint. Download `cgqnet_best.ckpt` using the link in the resource table above. The dataset access link will be added when available. The repository consumes prepared benchmark files; it does not contain the benchmark construction pipeline.
 
 ### 1. Install
 
@@ -253,7 +253,7 @@ After obtaining the matching checkpoint, evaluate the test split with the frozen
 ```bash
 python evaluate.py \
   --config configs/eval.yaml \
-  --checkpoint /path/to/cgq_net_seed42_epoch002.ckpt \
+  --checkpoint /path/to/cgqnet_best.ckpt \
   --threshold-json configs/thresholds_paper.json \
   --split test \
   --output outputs/test_metrics.json

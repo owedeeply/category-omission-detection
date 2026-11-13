@@ -16,7 +16,7 @@ The pretrained encoders are [CXR-RePaiR ViT-B/32](https://github.com/rajpurkarla
 
 ## Data configuration
 
-CXR-OMIT is derived from credentialed PhysioNet resources. Images, report text, derived evidence tables, and patient-level predictions are not distributed in this repository. Obtain source data through the corresponding [MIMIC-CXR](https://physionet.org/content/mimic-cxr/2.1.0/), [MIMIC-CXR-JPG](https://physionet.org/content/mimic-cxr-jpg/2.1.0/), and [CXR-LT](https://physionet.org/content/cxr-lt-iccv-workshop-cvamd/2.0.0/) access processes. CXR-OMIT data and CGQ-Net weights are distributed separately from the code. A separate PhysioNet benchmark release is planned; its project-specific access link and the checkpoint download link will be listed in the [resource table](../README.md#resources) when available. This code release consumes prepared benchmark Parquets and does not include the benchmark construction pipeline.
+CXR-OMIT is derived from credentialed PhysioNet resources. Images, report text, derived evidence tables, and patient-level predictions are not distributed in this repository. Obtain source data through the corresponding [MIMIC-CXR](https://physionet.org/content/mimic-cxr/2.1.0/), [MIMIC-CXR-JPG](https://physionet.org/content/mimic-cxr-jpg/2.1.0/), and [CXR-LT](https://physionet.org/content/cxr-lt-iccv-workshop-cvamd/2.0.0/) access processes. CXR-OMIT data and CGQ-Net weights are distributed separately from the code. A separate PhysioNet benchmark release is planned; its project-specific access link will be listed in the [resource table](../README.md#resources) when available. The paper checkpoint is available as [cgqnet_best.ckpt](https://github.com/owedeeply/category-omission-detection/releases/download/v0.1.0/cgqnet_best.ckpt) in Release v0.1.0. This code release consumes prepared benchmark Parquets and does not include the benchmark construction pipeline.
 
 Set these paths in your shell, or replace the corresponding entries in the YAML files:
 
@@ -100,7 +100,7 @@ python evaluate.py --config configs/eval.yaml --checkpoint /path/to/model.ckpt \
   --output outputs/test_metrics.json
 ```
 
-`configs/thresholds_paper.json` contains thresholds for the selected paper checkpoint. Use those thresholds only with that checkpoint; refit thresholds on validation data for a new training run. `configs/paper_checkpoint.json` records the paper checkpoint identity and expected metrics. The binary checkpoint is not included in this code upload.
+`configs/thresholds_paper.json` contains thresholds for the selected paper checkpoint. Use those thresholds only with that checkpoint; refit thresholds on validation data for a new training run. `configs/paper_checkpoint.json` records the paper checkpoint identity and expected metrics. Download the selected checkpoint as [cgqnet_best.ckpt](https://github.com/owedeeply/category-omission-detection/releases/download/v0.1.0/cgqnet_best.ckpt).
 
 | Paper test metric | Value |
 |---|---:|

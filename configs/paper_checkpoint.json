@@ -1,5 +1,5 @@
 {
-  "filename": "cgq_net_seed42_epoch002.ckpt",
+  "filename": "cgqnet_best.ckpt",
   "sha256": "2242dc4e97e4ef7ae739dca76e06bdaceb642a4cd11e64d2e0471b48317eb233",
   "bytes": 1498737742,
   "training_seed": 42,
