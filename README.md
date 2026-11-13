@@ -305,8 +305,6 @@ Comparison with representative baselines on the **CXR-OMIT test split**. Finding
 
 Atel. = atelectasis, PE = pleural effusion, Cardio. = cardiomegaly, Cons. = consolidation, PTX = pneumothorax, Frac. = fracture, PNM = pulmonary nodule/mass, and Emphy. = emphysema.
 
-CGQ-Net results use the selected paper checkpoint with training seed **42**, batch size **128**, and zero-based epoch **2**. Macro-F1 and Clean FAR use category-specific thresholds selected on the validation set.
-
 Category metrics use valid omission-mask positions. Report-AUPRC uses the maximum score over valid categories; Clean FAR is the fraction of unmodified controls with any valid category crossing its validation-selected threshold. Checkpoint selection and final evaluation use different preprocessing configurations, documented in [USAGE.md](docs/USAGE.md#threshold-fitting-and-evaluation).
 
 Exact metric values and the checkpoint checksum are recorded in [configs/paper_checkpoint.json](configs/paper_checkpoint.json). The bundled thresholds belong to that checkpoint; refit them on validation data for a new training run.
